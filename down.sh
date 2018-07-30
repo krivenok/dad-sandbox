@@ -4,8 +4,10 @@ CLIENT="client"
 SERVER="server"
 BAD_GUY="bad_guy"
 
-# Kill all tcpdump processes which we have started
-ps auxw | grep 'tcpdump.*mvl.*pcap' | grep -v grep | awk '{print $2}' | xargs kill
+# Kill all processes which we have started (e.g. tcpdump)
+ip netns pids ${CLIENT}.ns | xargs kill
+ip netns pids ${SERVER}.ns | xargs kill
+ip netns pids ${BAD_GUY}.ns | xargs kill
 
 # Kill all network namespaces
 ip netns del ${CLIENT}.ns
