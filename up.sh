@@ -17,12 +17,22 @@ SERVER_IPV4=10.5.5.10
 BAD_GUY_IPV4=10.5.5.10
 PREFIX_IPV4=24
 
+CLIENT_IPV6=fd00::0005
+SERVER_IPV6=fd00::0010
+BAD_GUY_IPV6=fd00::0010
+PREFIX_IPV6=64
+
 VLAN=10
 VLAN_CLIENT_IPV4=10.10.10.5
 VLAN_SERVER_IPV4=10.10.10.10
 # Bad guy has the same IP as our server
 VLAN_BAD_GUY_IPV4=10.10.10.10
 VLAN_PREFIX_IPV4=24
+
+VLAN_CLIENT_IPV6=fdff::1005
+VLAN_SERVER_IPV6=fdff::1010
+VLAN_BAD_GUY_IPV6=fdff::1010
+VLAN_PREFIX_IPV6=64
 
 ARP_FILTER=1
 ARP_IGNORE=1
@@ -103,7 +113,13 @@ ip netns exec ${BAD_GUY}.ns sh -c "tcpdump -nn -i ${BAD_GUY}.vmvl.$VLAN -s0 -w $
 ip netns exec ${CLIENT}.ns ip a add ${CLIENT_IPV4}/${PREFIX_IPV4} dev ${CLIENT}.mvl
 ip netns exec ${SERVER}.ns ip a add ${SERVER_IPV4}/${PREFIX_IPV4} dev ${SERVER}.mvl
 ip netns exec ${BAD_GUY}.ns ip a add ${BAD_GUY_IPV4}/${PREFIX_IPV4} dev ${BAD_GUY}.mvl
+ip netns exec ${CLIENT}.ns ip -6 a add ${CLIENT_IPV6}/${PREFIX_IPV6} dev ${CLIENT}.mvl
+ip netns exec ${SERVER}.ns ip -6 a add ${SERVER_IPV6}/${PREFIX_IPV6} dev ${SERVER}.mvl
+ip netns exec ${BAD_GUY}.ns ip -6 a add ${BAD_GUY_IPV6}/${PREFIX_IPV6} dev ${BAD_GUY}.mvl
 
 ip netns exec ${CLIENT}.ns ip a add ${VLAN_CLIENT_IPV4}/${VLAN_PREFIX_IPV4} dev ${CLIENT}.vmvl.$VLAN
 ip netns exec ${SERVER}.ns ip a add ${VLAN_SERVER_IPV4}/${VLAN_PREFIX_IPV4} dev ${SERVER}.vmvl.$VLAN
 ip netns exec ${BAD_GUY}.ns ip a add ${VLAN_BAD_GUY_IPV4}/${VLAN_PREFIX_IPV4} dev ${BAD_GUY}.vmvl.$VLAN
+ip netns exec ${CLIENT}.ns ip -6 a add ${VLAN_CLIENT_IPV6}/${VLAN_PREFIX_IPV6} dev ${CLIENT}.vmvl.$VLAN
+ip netns exec ${SERVER}.ns ip -6 a add ${VLAN_SERVER_IPV6}/${VLAN_PREFIX_IPV6} dev ${SERVER}.vmvl.$VLAN
+ip netns exec ${BAD_GUY}.ns ip -6 a add ${VLAN_BAD_GUY_IPV6}/${VLAN_PREFIX_IPV6} dev ${BAD_GUY}.vmvl.$VLAN
